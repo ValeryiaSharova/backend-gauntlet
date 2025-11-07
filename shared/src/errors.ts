@@ -1,5 +1,6 @@
 export enum HTTP_STATUS {
   OK = 200,
+  NOT_MODIFIED = 304,
   BAD_REQUEST = 400,
   UNAUTHORIZED = 401,
   PAYMENT_REQUIRED = 402,
@@ -15,6 +16,8 @@ export enum ERRORS {
   BAD_REQUEST = 'Bad Request',
 
   INVALID_ID = 'Invalid id',
+
+  NOT_FOUND = 'Not found',
 
   PERMISSION_DENIED = 'Permission denied',
 

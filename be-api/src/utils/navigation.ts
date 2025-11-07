@@ -1,6 +1,5 @@
 import { FastifyInstance, HTTPMethods, RouteShorthandOptions } from 'fastify';
 import { JSONSchema4 } from 'json-schema';
-
 import {
   Endpoints,
   EndpointsToMethod,
@@ -45,7 +44,7 @@ type ConfigOptions<M1 extends Mode, M2 extends Model> = {
   schema: Omit<ROptions['schema'], 'description' | 'tags' | 'response'> & {
     response: {
       model: M1 extends 'status' ? 'status' : M2;
-      errors: HTTP_STATUS[];
+      statuses?: HTTP_STATUS[];
     };
   };
 };
@@ -71,7 +70,7 @@ export const router = (routes: Routes) => (fastify: FastifyInstance) =>
 
 const makeResponseSchema = (
   model: Model | 'status',
-  errors: HTTP_STATUS[],
+  statuses: HTTP_STATUS[] = [],
   mode: Mode,
   isAuthOnly: boolean
 ): Response => {
@@ -99,18 +98,32 @@ const makeResponseSchema = (
           additionalProperties: false,
         };
 
-  return errors.reduce<Response>(
-    (acc, error) => {
-      acc[error] = { $ref: 'statuses#/properties/error' };
+  const initial: Response = {
+    [HTTP_STATUS.OK]: schema,
+    ...(isAuthOnly
+      ? { [HTTP_STATUS.UNAUTHORIZED]: { $ref: 'statuses#/properties/error' } }
+      : {}),
+  };
+
+  return statuses.reduce<Response>((acc, status) => {
+    if (status === HTTP_STATUS.OK) {
       return acc;
-    },
-    {
-      [HTTP_STATUS.OK]: schema,
-      ...(isAuthOnly
-        ? { [HTTP_STATUS.UNAUTHORIZED]: { $ref: 'statuses#/properties/error' } }
-        : {}),
     }
-  );
+
+    const isRedirect = status >= 300 && status < 400;
+    const hasCustomSchema =
+      Object.prototype.hasOwnProperty.call(acc, status) && !isRedirect;
+
+    if (hasCustomSchema) {
+      return acc;
+    }
+
+    acc[status] = isRedirect
+      ? { type: 'null' }
+      : { $ref: 'statuses#/properties/error' };
+
+    return acc;
+  }, initial);
 };
 
 export const config = <M1 extends Mode, M2 extends Model>(
@@ -145,7 +158,7 @@ export const config = <M1 extends Mode, M2 extends Model>(
       tags: [tag, ...roles.map((role) => `role:${role}`)],
       response: makeResponseSchema(
         schema.response.model,
-        schema.response.errors,
+        schema.response.statuses ?? [],
         mode,
         !roles.includes('guest')
       ),

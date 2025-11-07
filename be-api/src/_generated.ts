@@ -75,9 +75,14 @@ export type Handler<
 
 export type RootOptions = object;
 
-export type RootGetReply = Status;
+export type PublicWTokenDashboardGetReply =
+  | PublicWTokenDashboardGetReplyStatus200
+  | PublicWTokenDashboardGetReplyStatus304
+  | Error;
 
 export type EnumsWorkerStatus = 'online' | 'offline' | 'inactive';
+
+export type PublicWTokenDashboardGetReplyStatus304 = null;
 
 export type SwaggerGet = object;
 
@@ -105,8 +110,8 @@ export interface API {
   '*': {
     OPTIONS: RootOptions;
   };
-  '/': {
-    GET: RootGet;
+  '/public/w/:token/dashboard': {
+    GET: PublicWTokenDashboardGet;
   };
   '/swagger': {
     GET: SwaggerGet;
@@ -130,17 +135,20 @@ export interface API {
 }
 
 /**
- * Mock
+ * Get workers dashboard
  */
-export interface RootGet {
-  Reply: RootGetReply;
+export interface PublicWTokenDashboardGet {
+  Params: PublicWTokenDashboardGetParams;
+  Reply: PublicWTokenDashboardGetReply;
 }
 
-/**
- * Status response
- */
-export interface Status {
-  status: boolean;
+export interface PublicWTokenDashboardGetParams {
+  token: string;
+}
+
+export interface PublicWTokenDashboardGetReplyStatus200 {
+  model: 'workers';
+  item: WorkersDashboard;
 }
 
 /**
@@ -160,6 +168,14 @@ export interface WorkersDashboard {
     inactive: number;
     total_hashrate_th: string;
   };
+}
+
+/**
+ * Error response
+ */
+export interface Error {
+  error: string;
+  message?: string;
 }
 
 /**
@@ -203,11 +219,10 @@ export interface Statuses {
 }
 
 /**
- * Error response
+ * Status response
  */
-export interface Error {
-  error: string;
-  message?: string;
+export interface Status {
+  status: boolean;
 }
 
 /**
