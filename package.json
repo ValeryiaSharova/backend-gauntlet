@@ -1,0 +1,29 @@
+{
+  "name": "backend-gauntlet",
+  "version": "0.0.1",
+  "description": "Test task backend gauntlet",
+  "homepage": "https://github.com/ValeryiaSharova/backend-gauntlet#readme",
+  "repository": "git@github.com:ValeryiaSharova/backend-gauntlet.git",
+  "bugs": {
+    "url": "https://github.com/ValeryiaSharova/backend-gauntlet/issues"
+  },
+  "private": true,
+  "scripts": {
+    "prepare": "husky",
+    "prettier": "prettier --check ."
+  },
+  "dependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^5.2.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.4.2"
+  },
+  "workspaces": [
+    "be-api",
+    "be-db",
+    "shared"
+  ],
+  "packageManager": "yarn@4.3.1",
+  "engines": {
+    "node": "22.*"
+  }
+}
