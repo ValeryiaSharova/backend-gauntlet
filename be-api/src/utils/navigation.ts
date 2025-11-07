@@ -17,7 +17,7 @@ import { ID, Roles } from 'src/types';
 
 type ModeToHandler<Model, Item> = {
   getList: (list: Item[]) => { list: Item[]; model: Model };
-  getItem: (item: Item) => { item: Item; model: Model };
+  getItem: (item: Item) => Item;
   putItem: (item: Item) => { item: Item; model: Model };
   postItem: (item: Item) => { item: Item; model: Model };
   deleteItem: (item: ID) => { item: ID; model: Model };
@@ -74,6 +74,37 @@ const makeResponseSchema = (
   mode: Mode,
   isAuthOnly: boolean
 ): Response => {
+  if (mode === 'getItem') {
+    const schema: JSONSchema4 = { $ref: `models#/properties/${model}` };
+
+    const initial: Response = {
+      [HTTP_STATUS.OK]: schema,
+      ...(isAuthOnly
+        ? { [HTTP_STATUS.UNAUTHORIZED]: { $ref: 'statuses#/properties/error' } }
+        : {}),
+    };
+
+    return statuses.reduce<Response>((acc, status) => {
+      if (status === HTTP_STATUS.OK) {
+        return acc;
+      }
+
+      const isRedirect = status >= 300 && status < 400;
+      const hasCustomSchema =
+        Object.prototype.hasOwnProperty.call(acc, status) && !isRedirect;
+
+      if (hasCustomSchema) {
+        return acc;
+      }
+
+      acc[status] = isRedirect
+        ? { type: 'null' }
+        : { $ref: 'statuses#/properties/error' };
+
+      return acc;
+    }, initial);
+  }
+
   const base: Properties = { model: { type: 'string', enum: [model] } };
   const item: JSONSchema4 =
     mode === 'deleteItem'
@@ -149,7 +180,7 @@ export const config = <M1 extends Mode, M2 extends Model>(
 
     return mode === 'getList'
       ? { model, list: args[0] }
-      : { model, item: args[0] };
+      : (args[0] as Models[M2]);
   }) as never,
   options: {
     schema: {

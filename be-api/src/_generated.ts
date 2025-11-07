@@ -78,7 +78,7 @@ export type RootOptions = object;
 export type HealthzGetReply = Status | Error;
 
 export type PublicWTokenDashboardGetReply =
-  | PublicWTokenDashboardGetReplyStatus200
+  | WorkersDashboard
   | PublicWTokenDashboardGetReplyStatus304
   | Error;
 
@@ -171,11 +171,6 @@ export interface PublicWTokenDashboardGet {
 
 export interface PublicWTokenDashboardGetParams {
   token: string;
-}
-
-export interface PublicWTokenDashboardGetReplyStatus200 {
-  model: 'workers';
-  item: WorkersDashboard;
 }
 
 /**
