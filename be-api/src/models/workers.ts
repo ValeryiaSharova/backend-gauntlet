@@ -45,12 +45,10 @@ const getAgg = (workers: Workers[]): Model['agg'] => ({
   online: workers.filter((worker) => worker.status === 'online').length,
   offline: workers.filter((worker) => worker.status === 'offline').length,
   inactive: workers.filter((worker) => worker.status === 'inactive').length,
-  total_hashrate_th: workers
-    .reduce(
-      (acc, worker) => acc + Number((worker.hashrate_mh / 1000000).toFixed(3)),
-      0
-    )
-    .toString(),
+  total_hashrate_th: (
+    workers.reduce((acc, worker) => acc + Number(worker.hashrate_mh), 0) /
+    1000000
+  ).toFixed(3),
 });
 
 export const driver = (workers: Workers[]): Model => ({
@@ -59,7 +57,7 @@ export const driver = (workers: Workers[]): Model => ({
     name: worker.name,
     status: worker.status,
     last_seen_at: worker.last_seen_at.toISOString(),
-    hashrate_th: Number((worker.hashrate_mh / 1000000).toFixed(3)).toString(),
+    hashrate_th: (Number(worker.hashrate_mh) / 1000000).toFixed(3),
   })),
   agg: getAgg(workers),
 });

@@ -2,13 +2,22 @@ import crypto from 'crypto';
 
 import { WorkersDashboard } from 'src/_generated';
 
-const sortKeys = (obj: Record<string, unknown>): Record<string, unknown> =>
-  Object.keys(obj)
-    .sort()
-    .reduce<Record<string, unknown>>((acc, key) => {
-      acc[key] = obj[key];
-      return acc;
-    }, {});
+const sortKeys = (value: unknown): unknown => {
+  if (Array.isArray(value)) {
+    return value.map((item) => sortKeys(item));
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.keys(value as Record<string, unknown>)
+      .sort()
+      .reduce<Record<string, unknown>>((acc, key) => {
+        acc[key] = sortKeys((value as Record<string, unknown>)[key]);
+        return acc;
+      }, {});
+  }
+
+  return value;
+};
 
 export const getETag = (result: WorkersDashboard) => {
   const sorted = JSON.stringify(
