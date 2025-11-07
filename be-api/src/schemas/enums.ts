@@ -1,12 +1,18 @@
 import { JSONSchema4 } from 'json-schema';
-
 import { ENVIRONMENTS, LOCALES, MODES } from 'shared';
 
 export const enums: JSONSchema4 = {
   $id: 'enums',
   type: 'object',
   title: 'enums',
-  required: ['client', 'environment', 'locale', 'mode', 'orderDirection'],
+  required: [
+    'client',
+    'environment',
+    'locale',
+    'mode',
+    'orderDirection',
+    'workerStatus',
+  ],
   properties: {
     client: {
       title: 'EnumsClient',
@@ -32,6 +38,11 @@ export const enums: JSONSchema4 = {
       title: 'EnumsOrderDirection',
       type: 'string',
       enum: ['asc', 'desc'],
+    },
+    workerStatus: {
+      title: 'EnumsWorkerStatus',
+      type: 'string',
+      enum: ['online', 'offline', 'inactive'],
     },
   },
   additionalProperties: false,

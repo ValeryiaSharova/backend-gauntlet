@@ -77,6 +77,8 @@ export type RootOptions = object;
 
 export type RootGetReply = Status;
 
+export type EnumsWorkerStatus = 'online' | 'offline' | 'inactive';
+
 export type SwaggerGet = object;
 
 export type SwaggerJsonGet = object;
@@ -151,6 +153,7 @@ export interface Enums {
   locale: EnumsLocale;
   mode: EnumsMode;
   orderDirection: EnumsOrderDirection;
+  workerStatus: EnumsWorkerStatus;
 }
 
 /**
