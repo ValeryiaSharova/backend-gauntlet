@@ -10,10 +10,9 @@
     "build": "tsc -b",
     "watch": "yarn run build -w",
     "lint": "eslint . --ext .ts",
-    "pg:init": "initdb -D data/${CLUSTER:-postgres} -E UTF8 --locale=en_US.UTF-8",
-    "pg:init:darwin": "initdb -D data/${CLUSTER:-postgres} -E UTF8 --locale=en_US",
-    "pg:migrate": "cross-env NODE_PATH=build/ node ./build/src/postgres/migrate",
-    "pg:start": "postgres -D data/${CLUSTER:-postgres} -p ${PORT:-5300}"
+    "make migrate": "cross-env NODE_PATH=build/ node ./build/src/postgres/migrate",
+    "pg:start": "docker compose up -d",
+    "pg:stop": "docker compose down"
   },
   "dependencies": {
     "@dbml/core": "^3.9.4",
