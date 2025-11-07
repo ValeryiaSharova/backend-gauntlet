@@ -144,6 +144,25 @@ export interface Status {
 }
 
 /**
+ * Workers dashboard model
+ */
+export interface WorkersDashboard {
+  workers: {
+    id: string;
+    name: string;
+    status: EnumsWorkerStatus;
+    last_seen_at: string;
+    hashrate_th: string;
+  }[];
+  agg: {
+    online: number;
+    offline: number;
+    inactive: number;
+    total_hashrate_th: string;
+  };
+}
+
+/**
  * This interface was referenced by `API`'s JSON-Schema
  * via the `definition` "enums".
  */
@@ -196,10 +215,5 @@ export interface Error {
  * via the `definition` "models".
  */
 export interface Models {
-  mock: Mock;
+  workers: WorkersDashboard;
 }
-
-/**
- * Mock model
- */
-export interface Mock {}

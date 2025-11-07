@@ -1,3 +1,3 @@
-import * as mock from 'src/models/mock';
+import * as workers from 'src/models/workers';
 
-export const models = { mock };
+export const models = { workers };
