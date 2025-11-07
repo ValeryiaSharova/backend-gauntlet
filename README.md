@@ -27,7 +27,6 @@ For details see code and [dotenv-flow documentation](https://www.npmjs.com/packa
 2. run `yarn install` on repository root
 3. install all packages (see instructions):
    - [be-api](be-api/README.md)
-   - [be-db](be-db/README.md)
    - [shared](shared/README.md)
 
 ## Available Scripts
@@ -43,12 +42,3 @@ See the [documentation](https://typicode.github.io/husky/) for the `husky` packa
 
 Run prettier.\
 See the [documentation](https://prettier.io/docs/en/cli.html) for the `prettier` package for details.
-
-## Quick start
-
-1. run `yarn install` on repository root
-2. install postgres (see the [instruction](be-db/README.md))
-3. run `yarn run pg:init` on be-db
-4. run `yarn run pg:start` on be-db
-5. run `yarn run pg:migrate up` on be-db
-6. run `yarn run watch` on be-api

@@ -6,15 +6,13 @@ Backend
 
 - `node.js`: `22.*`
 - `yarn`: `4.*`
-- [be-db](../be-db/README.md) (local only) or PostgreSQL instance (production only)
 - [shared](../shared/README.md) (local only)
 
 ## Development
 
 1. install `node`, `yarn`
 2. run `yarn install`
-3. run [be-db](../be-db/README.md)
-4. run parallel:
+3. run parallel:
 
 ```sh
 yarn run watch:po

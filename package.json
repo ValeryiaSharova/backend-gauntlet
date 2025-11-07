@@ -19,7 +19,6 @@
   },
   "workspaces": [
     "be-api",
-    "be-db",
     "shared"
   ],
   "packageManager": "yarn@4.3.1",

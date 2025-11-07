@@ -7,7 +7,6 @@
     "^src/plugins/env$",
     "^(child_process|fs/promises|fs|http|path)$",
     "<THIRD_PARTY_MODULES>",
-    "^(shared|be-db)$",
     "^src/threads$",
     "^package.json$",
     "^src$",

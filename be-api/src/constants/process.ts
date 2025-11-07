@@ -1,4 +1,4 @@
-import { join, resolve } from 'path';
+import { resolve } from 'path';
 
 import { PLATFORMS, Platforms } from 'shared';
 
@@ -9,4 +9,3 @@ export const PLATFORM =
 
 export const ROOT = resolve(cwd, '..');
 export const BE_API = cwd;
-export const BE_DB = join(ROOT, 'be-db');
