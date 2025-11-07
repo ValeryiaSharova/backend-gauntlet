@@ -17,6 +17,8 @@ export type GroupsToPages = Reverse<PagesToGroups>;
 
 export const ENDPOINTS = {
   '/public/w/:token/dashboard': ['GET'],
+
+  '/healthz': ['GET'],
 } as const;
 
 export type Path = {

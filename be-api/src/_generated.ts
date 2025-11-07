@@ -75,6 +75,8 @@ export type Handler<
 
 export type RootOptions = object;
 
+export type HealthzGetReply = Status | Error;
+
 export type PublicWTokenDashboardGetReply =
   | PublicWTokenDashboardGetReplyStatus200
   | PublicWTokenDashboardGetReplyStatus304
@@ -110,6 +112,9 @@ export interface API {
   '*': {
     OPTIONS: RootOptions;
   };
+  '/healthz': {
+    GET: HealthzGet;
+  };
   '/public/w/:token/dashboard': {
     GET: PublicWTokenDashboardGet;
   };
@@ -132,6 +137,28 @@ export interface API {
   '/swagger/yaml': {
     GET: SwaggerYamlGet;
   };
+}
+
+/**
+ * Health check
+ */
+export interface HealthzGet {
+  Reply: HealthzGetReply;
+}
+
+/**
+ * Status response
+ */
+export interface Status {
+  status: boolean;
+}
+
+/**
+ * Error response
+ */
+export interface Error {
+  error: string;
+  message?: string;
 }
 
 /**
@@ -168,14 +195,6 @@ export interface WorkersDashboard {
     inactive: number;
     total_hashrate_th: string;
   };
-}
-
-/**
- * Error response
- */
-export interface Error {
-  error: string;
-  message?: string;
 }
 
 /**
@@ -216,13 +235,6 @@ export interface Version {
 export interface Statuses {
   error: Error;
   status: Status;
-}
-
-/**
- * Status response
- */
-export interface Status {
-  status: boolean;
 }
 
 /**

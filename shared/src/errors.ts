@@ -15,6 +15,8 @@ export enum ERRORS {
   BAD_ENDPOINT = 'Bad endpoint',
   BAD_REQUEST = 'Bad Request',
 
+  INTERNAL_SERVER = 'Internal server error',
+
   INVALID_ID = 'Invalid id',
 
   NOT_FOUND = 'Not found',
